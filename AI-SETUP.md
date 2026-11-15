@@ -13,7 +13,7 @@ The website AI page and its secure Supabase Edge Function are included in this r
 5. Optional model override:
    `supabase secrets set OPENAI_MODEL=gpt-6-luna`
 6. Deploy:
-   `supabase functions deploy jikzo-ai`
+   `supabase functions deploy jikzo-ai --no-verify-jwt`
 
 The default model is gpt-6-luna and the function uses OpenAI's Responses API. You can change the model using the OPENAI_MODEL secret if needed.
 
