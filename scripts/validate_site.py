@@ -58,10 +58,14 @@ if audit.h1_count != 1:
 if audit.main_count != 1:
     fail(f"homepage should contain exactly one main element; found {audit.main_count}")
 
-scripts = re.findall(r"<script\\b[^>]*>([\\s\\S]*?)</script>", source, flags=re.I)
-if len(scripts) != 1:
-    fail(f"expected one inline application script; found {len(scripts)}")
-Path("/tmp/jikzo-inline.js").write_text(scripts[0], encoding="utf-8")
+script_start = source.find("<script>")
+script_end = source.find("</script>", script_start + 1)
+if script_start < 0 or script_end < 0:
+    fail("inline application script is missing or not closed")
+if source.find("<script>", script_start + 1) >= 0:
+    fail("unexpected extra inline script tag")
+inline_script = source[script_start + len("<script>"):script_end]
+Path("/tmp/jikzo-inline.js").write_text(inline_script, encoding="utf-8")
 
 for path in (SQL_BASE, SQL_MARKET):
     if not path.exists():
