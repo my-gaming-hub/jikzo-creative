@@ -13,6 +13,11 @@ jobs:
         uses: supabase/setup-cli@v1
         with:
           version: latest
+      - name: Store Groq key securely in Supabase
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: supabase secrets set GROQ_API_KEY="$GROQ_API_KEY" --project-ref ylniprnidsrmnicjzayx
       - name: Deploy AI function
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
